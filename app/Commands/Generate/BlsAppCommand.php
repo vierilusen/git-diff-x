@@ -114,8 +114,9 @@ class BlsAppCommand extends Command
                 $bar->setMessage('Copying Files...');
                 $bar->start();
                     $filesDiff = $this->repoMasterService->getDiffData();
-                    foreach ($bar->iterate($filesDiff) as $file) {
+                    foreach ($filesDiff as $file) {
                         $this->repoDpService->changeFile($this->repoMasterService->getBaseUrlRepoMaster() . "/$file", $file, $branchName);
+                        $bar->advance();
                     }
                 $bar->finish();
                 return true;
