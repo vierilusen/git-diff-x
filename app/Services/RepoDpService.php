@@ -56,7 +56,6 @@ class RepoDpService
       echo "<br />\n".$errors['message'];
       return false;
     }
-
   }
 
 }
