@@ -113,11 +113,17 @@ class BlsAppCommand extends Command
                 $bar->setFormat('custom');
                 $bar->setMessage('Copying Files...');
                 $bar->start();
+                
                     $filesDiff = $this->repoMasterService->getDiffData();
                     foreach ($filesDiff as $file) {
                         $this->repoDpService->changeFile($this->repoMasterService->getBaseUrlRepoMaster() . "/$file", $file, $branchName);
                         $bar->advance();
                     }
+
+                    $bar->setMessage('Update Version...');
+                    $this->repoDpService->updateVersion($branchName, 1);
+                    $bar->advance();
+
                 $bar->finish();
                 return true;
             } catch (\Throwable $th) {

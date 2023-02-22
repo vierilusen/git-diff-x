@@ -58,5 +58,25 @@ class RepoDpService
     }
   }
 
+  public function generateVersion($oldVersion, $incrementPoint)
+  {
+    $a = explode('.', $oldVersion);
+    if($incrementPoint > 0){
+        $a[count($a)-1]++;
+    } elseif ($incrementPoint < 0){
+        $a[count($a)-1]--;
+    }
+    return implode('.', $a); 
+  }
+
+  public function updateVersion($branchName, $updatePoint)
+  {
+    $versionFile = file($this->baseUrlRepo . "/fppno.txt");
+    $oldVersion = $versionFile[1];
+    $newVersion = $this->generateVersion($oldVersion, $updatePoint);
+
+    file_put_contents($this->baseUrlRepo . "/fppno.txt", "$branchName\n$newVersion");
+  }
+
 }
 
