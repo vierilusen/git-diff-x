@@ -21,20 +21,20 @@ class RepoMasterService
   {
     if (!is_dir($this->baseUrlRepo)) {
       chdir($this->basePath);
-      exec("git clone $httpsUrl temp/repomaster 2>/dev/null", $output);
+      exec("git clone $httpsUrl temp/repomaster 2>&1", $output);
     }
 
     chdir($this->baseUrlRepo);
-    exec("git checkout master 2>/dev/null", $output);
-    exec("git pull origin 2>/dev/null", $output);
+    exec("git checkout master 2>&1", $output);
+    exec("git pull origin 2>&1", $output);
   }
 
   public function checkout($branchName)
   {
     chdir($this->baseUrlRepo);
-    exec("git checkout $branchName 2>/dev/null", $output);
-    exec("git restore . 2>/dev/null", $output);
-    exec("git pull origin $branchName 2>/dev/null", $output);
+    exec("git checkout $branchName 2>&1", $output);
+    exec("git restore . 2>&1", $output);
+    exec("git pull origin $branchName 2>&1", $output);
   }
 
   public function generateDiffTxt($fromBranch, $toBranch)
