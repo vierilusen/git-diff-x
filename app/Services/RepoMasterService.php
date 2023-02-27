@@ -29,11 +29,15 @@ class RepoMasterService
     exec("git pull origin 2>&1", $output);
   }
 
-  public function checkout($branchName)
+  public function checkout($branchName, $restore = true)
   {
     chdir($this->baseUrlRepo);
     exec("git checkout $branchName 2>&1", $output);
-    exec("git restore . 2>&1", $output);
+
+    if ($restore) {
+      exec("git restore . 2>&1", $output);
+    }
+
     exec("git pull origin $branchName 2>&1", $output);
   }
 
@@ -47,6 +51,39 @@ class RepoMasterService
   {
     $files = file("$this->baseUrlRepo/diff.txt", FILE_IGNORE_NEW_LINES);
     return $files;
+  }
+
+  public function getBackupData($branchName)
+  {
+    $dataDiff = $this->getDiffData();
+    $this->checkout('master', false);
+
+    $arrayFiles = [];
+    foreach ($dataDiff as $key => $value) {
+      if (!str_contains($value, 'app/views') && file_exists("$this->baseUrlRepo/$value")) {
+        $arrayFiles[] = "/$value";
+      }
+    }
+
+    $this->checkout($branchName, false);
+    return $arrayFiles;
+  }
+
+  public function getBackupViewData($branchName)
+  {
+    $dataDiff = $this->getDiffData();
+    $this->checkout('master', false);
+
+    $arrayFiles = [];
+    foreach ($dataDiff as $key => $value) {
+      $viewFolder = explode("/", $value);
+      if (str_contains($value, 'app/views/') && is_dir("$this->baseUrlRepo/app/views/$viewFolder[2]")) {
+        $arrayFiles[] = "/app/views/$viewFolder[2]";
+      }
+    }
+
+    $this->checkout($branchName, false);
+    return array_unique($arrayFiles);
   }
 
 }

@@ -40,7 +40,7 @@ class RepoDpService
     }
   }
 
-  public function changeFile($sourceFile, $toFile, $branchName)
+  public function copyFile($sourceFile, $toFile, $branchName)
   {
     $destRepoDp = "$this->baseUrlRepo/$branchName/Source/bls/$toFile";
     $destPathInfo = pathinfo($destRepoDp);
@@ -56,6 +56,11 @@ class RepoDpService
       echo "<br />\n".$errors['message'];
       return false;
     }
+  }
+
+  public function editFile($filePath, $contentFile)
+  {
+     file_put_contents("$this->baseUrlRepo/$filePath", $contentFile);
   }
 
   public function generateVersion($oldVersion, $incrementPoint)

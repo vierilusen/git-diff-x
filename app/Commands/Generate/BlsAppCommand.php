@@ -116,9 +116,21 @@ class BlsAppCommand extends Command
                 
                     $filesDiff = $this->repoMasterService->getDiffData();
                     foreach ($filesDiff as $file) {
-                        $this->repoDpService->changeFile($this->repoMasterService->getBaseUrlRepoMaster() . "/$file", $file, $branchName);
+                        $this->repoDpService->copyFile($this->repoMasterService->getBaseUrlRepoMaster() . "/$file", $file, $branchName);
                         $bar->advance();
                     }
+
+                    $bar->setMessage('Update Backup Data...');
+                    $newDataBackup = $this->repoMasterService->getBackupData($branchName);
+                    $newFileBackup = implode("\n", $newDataBackup);
+                    $this->repoDpService->editFile("$branchName/SourceBackup.txt", $newFileBackup);
+                    $bar->advance();
+
+                    $bar->setMessage('Update Backup Views Data...');
+                    $newDataBackupViews = $this->repoMasterService->getBackupViewData($branchName);
+                    $newFileBackup = implode("\n", $newDataBackupViews);
+                    $this->repoDpService->editFile("$branchName/SourceBackupVIEW.txt", $newFileBackup);
+                    $bar->advance();
 
                     $bar->setMessage('Update Version...');
                     $this->repoDpService->updateVersion($branchName, 1);
