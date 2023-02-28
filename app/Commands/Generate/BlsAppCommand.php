@@ -115,19 +115,30 @@ class BlsAppCommand extends Command
                 $bar->start();
                 
                     $filesDiff = $this->repoMasterService->getDiffData();
+
+                    $arrayExclude = array_merge(['Generate ALL'], $filesDiff);
+                    $excludeChoice = $this->choice(
+                        'This is your files will be generate and copy to DP REPO, is there any file you want to exclude? multiple choice example: 1,2 (if you want generate all insert 0)',
+                        $arrayExclude,
+                        null,
+                        1,
+                        true
+                    );
+
+                    $filesDiff = array_diff($filesDiff, $excludeChoice);
                     foreach ($filesDiff as $file) {
                         $this->repoDpService->copyFile($this->repoMasterService->getBaseUrlRepoMaster() . "/$file", $file, $branchName);
                         $bar->advance();
                     }
 
                     $bar->setMessage('Update Backup Data...');
-                    $newDataBackup = $this->repoMasterService->getBackupData($branchName);
+                    $newDataBackup = $this->repoMasterService->getBackupData($filesDiff, $branchName);
                     $newFileBackup = implode("\n", $newDataBackup);
                     $this->repoDpService->editFile("$branchName/SourceBackup.txt", $newFileBackup);
                     $bar->advance();
 
                     $bar->setMessage('Update Backup Views Data...');
-                    $newDataBackupViews = $this->repoMasterService->getBackupViewData($branchName);
+                    $newDataBackupViews = $this->repoMasterService->getBackupViewData($filesDiff, $branchName);
                     $newFileBackup = implode("\n", $newDataBackupViews);
                     $this->repoDpService->editFile("$branchName/SourceBackupVIEW.txt", $newFileBackup);
                     $bar->advance();

@@ -53,9 +53,8 @@ class RepoMasterService
     return $files;
   }
 
-  public function getBackupData($branchName)
+  public function getBackupData($dataDiff, $branchName)
   {
-    $dataDiff = $this->getDiffData();
     $this->checkout('master', false);
 
     $arrayFiles = [];
@@ -69,9 +68,8 @@ class RepoMasterService
     return $arrayFiles;
   }
 
-  public function getBackupViewData($branchName)
+  public function getBackupViewData($dataDiff, $branchName)
   {
-    $dataDiff = $this->getDiffData();
     $this->checkout('master', false);
 
     $arrayFiles = [];
