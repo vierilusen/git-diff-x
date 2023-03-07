@@ -12,6 +12,11 @@ class RepoDpService
       $this->baseUrlRepo = base_path("/temp/repodp");
   }
 
+  public function getBaseUrlRepo()
+  {
+    return $this->baseUrlRepo;
+  }
+
   public function clone($httpsUrl) 
   {
     if (!is_dir($this->baseUrlRepo)) {
@@ -40,9 +45,10 @@ class RepoDpService
     }
   }
 
-  public function copyFile($sourceFile, $toFile, $branchName)
+  public function copyFile($sourceFile, $toFile)
   {
-    $destRepoDp = "$this->baseUrlRepo/$branchName/Source/bls/$toFile";
+    chdir($this->baseUrlRepo);
+    $destRepoDp = "$this->baseUrlRepo/$toFile";
     $destPathInfo = pathinfo($destRepoDp);
     $destDirname = $destPathInfo['dirname'];
 
@@ -60,11 +66,13 @@ class RepoDpService
 
   public function editFile($filePath, $contentFile)
   {
+    chdir($this->baseUrlRepo);
      file_put_contents("$this->baseUrlRepo/$filePath", $contentFile);
   }
 
   public function generateVersion($oldVersion, $incrementPoint)
   {
+    chdir($this->baseUrlRepo);
     $a = explode('.', $oldVersion);
     if($incrementPoint > 0){
         $a[count($a)-1]++;
@@ -76,11 +84,45 @@ class RepoDpService
 
   public function updateVersion($branchName, $updatePoint)
   {
+    chdir($this->baseUrlRepo);
     $versionFile = file($this->baseUrlRepo . "/fppno.txt");
     $oldVersion = $versionFile[1];
     $newVersion = $this->generateVersion($oldVersion, $updatePoint);
 
     file_put_contents($this->baseUrlRepo . "/fppno.txt", "$branchName\n$newVersion");
+  }
+
+  public function getDiffData($branchName)
+  {
+    chdir($this->baseUrlRepo);
+    $this->checkout($branchName);
+    exec("git ls-files -mo", $output);
+
+    $output = array_map(function ($file) use ($branchName) {
+      return str_replace("$branchName/Source/bls/", '', $file);
+    }, $output);
+
+    return $output;
+  }
+
+  public function restoreFile($branchName, $path)
+  {
+    chdir($this->baseUrlRepo);
+    $this->checkout($branchName);
+    
+    exec("git ls-files -m", $modifiedFiles);
+    foreach ($modifiedFiles as $key => $modifiedFile) {
+      if (str_contains($modifiedFile, $path)) {
+          exec("git restore *$path", $restore);
+      }
+    }
+
+    exec("git ls-files -o", $untrackedFiles);
+    foreach ($untrackedFiles as $key => $untrackedFile) {
+      if (str_contains($untrackedFile, $path)) {
+          exec("git clean -fd *$path", $untracked);
+      }
+    }
   }
 
 }

@@ -12,7 +12,7 @@ class RepoMasterService
       $this->baseUrlRepo = base_path("/temp/repomaster");
   }
 
-  public function getBaseUrlRepoMaster()
+  public function getBaseUrlRepo()
   {
       return $this->baseUrlRepo;
   }
@@ -43,18 +43,21 @@ class RepoMasterService
 
   public function generateDiffTxt($fromBranch, $toBranch)
   {
+    chdir($this->baseUrlRepo);
      $this->checkout($fromBranch);
      exec("git diff --name-only $toBranch > diff.txt", $output);
   }
 
   public function getDiffData()
   {
+    chdir($this->baseUrlRepo);
     $files = file("$this->baseUrlRepo/diff.txt", FILE_IGNORE_NEW_LINES);
     return $files;
   }
 
-  public function getBackupData($dataDiff, $branchName)
+  public function getValidBackupData($dataDiff, $branchName)
   {
+    chdir($this->baseUrlRepo);
     $this->checkout('master', false);
 
     $arrayFiles = [];
@@ -68,8 +71,9 @@ class RepoMasterService
     return $arrayFiles;
   }
 
-  public function getBackupViewData($dataDiff, $branchName)
+  public function getValidBackupViewData($dataDiff, $branchName)
   {
+    chdir($this->baseUrlRepo);
     $this->checkout('master', false);
 
     $arrayFiles = [];
@@ -82,6 +86,15 @@ class RepoMasterService
 
     $this->checkout($branchName, false);
     return array_unique($arrayFiles);
+  }
+
+  public function getDiffMerge($fromBranch, $toBranch)
+  {
+    chdir($this->baseUrlRepo);
+    $this->checkout($fromBranch);
+    exec("git diff --name-only $fromBranch...$toBranch", $output);
+
+    return $output;
   }
 
 }
