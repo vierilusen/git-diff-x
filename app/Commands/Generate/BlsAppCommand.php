@@ -239,7 +239,7 @@ class BlsAppCommand extends Command
                     }
                     $bar->advance();
     
-                    $uniqueName = $branchName .'_'. date('dmYHis');
+                    $uniqueName = $branchName .'_'. date('YmdHis');
                     File::copyDirectory($this->repoDpService->getBaseUrlRepo(), "$pathDPFolder/BLS_APP_$uniqueName/");
     
                     $bar->finish();
