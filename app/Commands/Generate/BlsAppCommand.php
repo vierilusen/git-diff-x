@@ -62,7 +62,7 @@ class BlsAppCommand extends Command
         $initRepoMaster = $this->task("Initialize Repo Master", function () use ($branchName) {
             try {
                 $bar = $this->output->createProgressBar(100);
-                $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                 $bar->setFormat('custom');
                 $bar->setMessage('Clone Repo...');
                 $bar->start();
@@ -103,7 +103,7 @@ class BlsAppCommand extends Command
         $initRepoDP =  $this->task("Initialize Repo DP", function () use ($branchName) {
             try {
                 $bar = $this->output->createProgressBar(100);
-                $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                 $bar->setFormat('custom');
                 $bar->setMessage('Clone Repo...');
                 $bar->start();
@@ -135,7 +135,7 @@ class BlsAppCommand extends Command
         $generateDiffFiles = $this->task("Generate Diff Files", function () use ($branchName) {
             try {
                 $bar = $this->output->createProgressBar();
-                $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                 $bar->setFormat('custom');
                 $bar->setMessage('Copying Files...');
                 $bar->start();
@@ -198,7 +198,7 @@ class BlsAppCommand extends Command
             $pushDPRepo = $this->task("Commit and Push DP", function () use ($branchName) {
                 try {
                     $bar = $this->output->createProgressBar();
-                    $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                    $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                     $bar->setFormat('custom');
                     $bar->setMessage('Commit DP Repo...');
                     $bar->start();
@@ -225,7 +225,7 @@ class BlsAppCommand extends Command
             $copyDPRepo = $this->task("Copy DP Repo", function () use ($branchName) {
                 try {
                     $bar = $this->output->createProgressBar();
-                    $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                    $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                     $bar->setFormat('custom');
                     $bar->setMessage('Copying Files...');
                     $bar->start();
