@@ -58,7 +58,7 @@ class RepoMasterService
   public function getValidBackupData($dataDiff, $branchName)
   {
     chdir($this->baseUrlRepo);
-    $this->checkout('master', false);
+    $this->checkout('master');
 
     $arrayFiles = [];
     foreach ($dataDiff as $key => $value) {
@@ -67,14 +67,14 @@ class RepoMasterService
       }
     }
 
-    $this->checkout($branchName, false);
+    $this->checkout($branchName);
     return $arrayFiles;
   }
 
   public function getValidBackupViewData($dataDiff, $branchName)
   {
     chdir($this->baseUrlRepo);
-    $this->checkout('master', false);
+    $this->checkout('master');
 
     $arrayFiles = [];
     foreach ($dataDiff as $key => $value) {
@@ -84,7 +84,7 @@ class RepoMasterService
       }
     }
 
-    $this->checkout($branchName, false);
+    $this->checkout($branchName);
     return array_unique($arrayFiles);
   }
 

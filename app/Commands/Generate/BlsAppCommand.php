@@ -18,7 +18,8 @@ class BlsAppCommand extends Command
      */
     protected $signature = 'generate:bls_app
                             {branch : branch name repo (required)}
-                            {--push : push to repo DP_APP_DB (optional)}';
+                            {--push : create dp folder and push to repo DP_APP_DB (optional)}
+                            {--push-only : dont create dp folder, just push to repo DP_APP_DB (optional)}';
 
     /**
      * The description of the command.
@@ -55,6 +56,8 @@ class BlsAppCommand extends Command
     public function handle()
     {
         $branchName = $this->argument('branch');
+        $isPush = $this->option('push');
+        $isPushOnly = $this->option('push-only');
 
         $initRepoMaster = $this->task("Initialize Repo Master", function () use ($branchName) {
             try {
@@ -148,6 +151,7 @@ class BlsAppCommand extends Command
                     $filesDiffDP = $this->repoDpService->getDiffData($branchName);
 
                     $filesExclude = array_merge(['Generate ALL'], $filesDiffDP);
+                    $bar->clear();
                     $excludeChoice = $this->choice(
                         'This is your updated files in repo DP, is there any file you want to exclude? multiple choice example: 1,2 (if you want generate all insert 0)',
                         $filesExclude,
@@ -177,7 +181,6 @@ class BlsAppCommand extends Command
                     $bar->setMessage('Update Version...');
                     $this->repoDpService->updateVersion($branchName, 1);
                     $bar->advance();
-
                 $bar->finish();
                 return true;
             } catch (\Throwable $th) {
@@ -191,38 +194,68 @@ class BlsAppCommand extends Command
             exit;
         }
 
-        $copyDPRepo = $this->task("Copy DP Repo", function () use ($branchName) {
-            try {
-                $bar = $this->output->createProgressBar();
-                $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
-                $bar->setFormat('custom');
-                $bar->setMessage('Copying Files...');
-                $bar->start();
-
-                chdir(base_path());
-                $pathDPFolder = $this->ask('Insert path for DP Folder? (please insert full path directory!)');
-                if (!is_dir($pathDPFolder)) {
-                    $this->errorMessage = "<info>Incorrect path!<info>";
+        if ($isPush || $isPushOnly) {
+            $pushDPRepo = $this->task("Commit and Push DP", function () use ($branchName) {
+                try {
+                    $bar = $this->output->createProgressBar();
+                    $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                    $bar->setFormat('custom');
+                    $bar->setMessage('Commit DP Repo...');
+                    $bar->start();
+                        $bar->clear();
+                        $comment = $this->ask("Insert comment for commit?");
+                        $bar->advance();
+                        $this->repoDpService->commitAndPush($branchName, $comment);
+                    $bar->finish();
+    
+                    return true;
+                } catch (\Throwable $th) {
+                    $this->errorMessage = $th;
                     return false;
                 }
-                $bar->advance();
+            }, '');
 
-                $uniqueName = $branchName .'_'. date('dmYHis');
-                File::copyDirectory($this->repoDpService->getBaseUrlRepo(), "$pathDPFolder/BLS_APP_$uniqueName/");
-
-                $bar->finish();
-                $this->newLine();    
-                $this->info("Your DP folder successfully generated in this path $pathDPFolder/BLS_APP_$uniqueName");
-            } catch (\Throwable $th) {
-                $this->errorMessage = $th;
-                return false;
+            if (!$pushDPRepo) {
+                $this->output->writeln($this->errorMessage);
+                exit;
             }
-        }, '');
-
-        if (!$copyDPRepo) {
-            $this->output->writeln($this->errorMessage);
-            exit;
         }
+
+        if (!$isPushOnly) {
+            $copyDPRepo = $this->task("Copy DP Repo", function () use ($branchName) {
+                try {
+                    $bar = $this->output->createProgressBar();
+                    $bar->setFormatDefinition('custom', '[%bar%] %percent:3s%% -- %message%');
+                    $bar->setFormat('custom');
+                    $bar->setMessage('Copying Files...');
+                    $bar->start();
+    
+                    chdir(base_path());
+                    $bar->clear();
+                    $pathDPFolder = $this->ask('Insert path for DP Folder? (please insert full path directory!)');
+                    if (!is_dir($pathDPFolder)) {
+                        $this->errorMessage = "<info>Incorrect path!<info>";
+                        return false;
+                    }
+                    $bar->advance();
+    
+                    $uniqueName = $branchName .'_'. date('dmYHis');
+                    File::copyDirectory($this->repoDpService->getBaseUrlRepo(), "$pathDPFolder/BLS_APP_$uniqueName/");
+    
+                    $bar->finish();
+                    return true;
+                } catch (\Throwable $th) {
+                    $this->errorMessage = $th;
+                    return false;
+                }
+            }, '');
+    
+            if (!$copyDPRepo) {
+                $this->output->writeln($this->errorMessage);
+                exit;
+            }
+        }
+        
     }
 
     /**

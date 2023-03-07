@@ -29,11 +29,13 @@ class RepoDpService
     exec("git pull origin 2>&1", $output);
   }
 
-  public function checkout($branchName)
+  public function checkout($branchName, $restore = true)
   {
     chdir($this->baseUrlRepo);
     exec("git checkout $branchName 2>&1", $output);
-    exec("git restore . 2>&1", $output);
+    if ($restore) {
+      exec("git restore . 2>&1", $output);
+    }
     exec("git pull origin $branchName 2>&1", $output);
   }
 
@@ -123,6 +125,16 @@ class RepoDpService
           exec("git clean -fd *$path", $untracked);
       }
     }
+  }
+
+  public function commitAndPush($branchName, $comment)
+  {
+    chdir($this->baseUrlRepo);
+    $this->checkout($branchName, false);
+    exec("git config --global core.autocrlf false 2>&1", $output);
+    exec("git add . 2>&1", $output);
+    exec('git commit -m "' . $comment . '" 2>&1', $output);
+    exec("git push origin $branchName 2>&1", $output);
   }
 
 }
