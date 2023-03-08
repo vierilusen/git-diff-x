@@ -15,9 +15,23 @@ Install GDX on Windows
 2. Extract zip file to C:\gdx
 3. Settings your enviroment variable path to use gdx globally
 
+## Flow System
+```mermaid
+flowchart TD;
+    A[GDX]-->B[Clone/Pull Repo Dev];
+    A-->C[Clone/Pull Repo DP_APP_DB];
+    B-->D[Is Repo Branch need merger first?];
+    D-->|YES| G[Exit! Merger your branch with lasted master first];
+    D-->|NO| I[Identified diff files]
+    I-->|Copy diff files to Repo DP_APP_DB| C;
+    C-->J[Identified changes files];
+    J-->K[Filter Excluded files];
+    K-->P[Update backup file, and fppno];
+    P-->L[Push Repo DP_APP_DB to Azure];
+    P-->M[Copy repo DP_APP_DB to specific local path];
+```
 
 ## Usage/Examples
-
 See all available commands and options:
 
 ```bash
