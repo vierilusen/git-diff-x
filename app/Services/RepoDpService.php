@@ -8,8 +8,8 @@ class RepoDpService
 
   public function __construct() 
   {
-      $this->basePath = base_path();
-      $this->baseUrlRepo = base_path("/temp/repodp");
+      $this->basePath = "/";
+      $this->baseUrlRepo = "/gdx-temp/repodp";
   }
 
   public function getBaseUrlRepo()
@@ -21,7 +21,7 @@ class RepoDpService
   {
     if (!is_dir($this->baseUrlRepo)) {
       chdir($this->basePath);
-      exec("git clone $httpsUrl temp/repodp 2>&1", $output);
+      exec("git clone $httpsUrl gdx-temp/repodp 2>&1", $output);
     }
 
     chdir($this->baseUrlRepo);

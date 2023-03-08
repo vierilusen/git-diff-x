@@ -230,7 +230,7 @@ class BlsAppCommand extends Command
                     $bar->setMessage('Copying Files...');
                     $bar->start();
     
-                    chdir(base_path());
+                    chdir("/");
                     $bar->clear();
                     $pathDPFolder = $this->ask('Insert path for DP Folder? (please insert full path directory!)');
                     if (!is_dir($pathDPFolder)) {
