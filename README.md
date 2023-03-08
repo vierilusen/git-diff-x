@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/vierilusen/git-diff-x)](https://github.com/vierilusen/git-diff-x/issues)
 [![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/laravel-zero/laravel-zero/php)](https://github.com/vierilusen/git-diff-x/releases/tag/v1.0)
 
-This project is made only for internal personal use for the needs of PT Bhinneka Life Indonesia. A CLI program for indetified diff beetwen repo branch to repo master in dev repo and generate diff for the needs deploy to DP_APP_DB repo automatically.
+This project is made only for internal personal use for the needs of PT Bhinneka Life Indonesia. A CLI program for identified diff beetwen repo branch to repo master in dev repo and generate diff for the needs deploy to DP_APP_DB repo automatically.
 
 ## Require
 - [PHP 8.1+](https://www.php.net/releases/)
