@@ -24,13 +24,13 @@ See all available commands and options:
 C:\gdx> gdx
 ```
 
-Command available:
+Usage:
 
 ```bash
 C:\gdx> gdx generate:repo_name --option
 ```
 
-Example Usage:
+Example:
 
 ```bash
 C:\gdx> gdx generate:bls_app --push
