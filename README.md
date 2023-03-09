@@ -18,8 +18,8 @@ Install GDX on Windows
 ## Flow System
 ```mermaid
 flowchart TD;
-    A[GDX]-->B[Clone/Pull Repo Dev];
-    A-->C[Clone/Pull Repo DP_APP_DB];
+    A[GDX]-->|Clone/Pull| B[Repo Dev];
+    A-->|Clone/Pull| C[Repo DP_APP_DB];
     B-->D[Is Repo Branch need merger first?];
     D-->|YES| G[Exit! Merger your branch with lasted master first];
     D-->|NO| I[Identified diff files]
