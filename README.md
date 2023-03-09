@@ -3,7 +3,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/vierilusen/git-diff-x)](https://github.com/vierilusen/git-diff-x/issues)
 [![Packagist PHP Version](https://img.shields.io/packagist/dependency-v/laravel-zero/laravel-zero/php)](https://github.com/vierilusen/git-diff-x/releases/tag/v1.0)
 
-This project is made only for internal personal use for the needs of PT Bhinneka Life Indonesia. A CLI program for identified diff beetwen repo branch to repo master in dev repo and generate diff for the needs deploy to DP_APP_DB repo automatically.
+The purpose of this project is to provide a CLI program that can be used internally by PT Bhinneka Life Indonesia. The program is designed to identify the differences between a repository branch and its master in the development repository. Once identified, it generates a diff that can be used to deploy changes automatically to the DP_APP_DB repository.
 
 ## Require
 - [PHP 8.1+](https://www.php.net/releases/)
