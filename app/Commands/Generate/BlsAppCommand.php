@@ -64,8 +64,11 @@ class BlsAppCommand extends Command
                 $bar = $this->output->createProgressBar(100);
                 $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                 $bar->setFormat('custom');
+                $bar->setProgressCharacter('🚀');
+                $bar->setBarCharacter('=');
                 $bar->setMessage('Clone Repo...');
                 $bar->start();
+                    
                     $this->repoMasterService->clone($this->httpsMasterRepo);
                     $bar->advance(25);
         
@@ -105,6 +108,8 @@ class BlsAppCommand extends Command
                 $bar = $this->output->createProgressBar(100);
                 $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                 $bar->setFormat('custom');
+                $bar->setProgressCharacter('🚀');
+                $bar->setBarCharacter('=');
                 $bar->setMessage('Clone Repo...');
                 $bar->start();
                     $this->repoDpService->clone($this->httpsDpAppDb);
@@ -137,6 +142,8 @@ class BlsAppCommand extends Command
                 $bar = $this->output->createProgressBar();
                 $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                 $bar->setFormat('custom');
+                $bar->setProgressCharacter('🚀');
+                $bar->setBarCharacter('=');
                 $bar->setMessage('Copying Files...');
                 $bar->start();
                     $filesDiffMaster = $this->repoMasterService->getDiffData();
@@ -200,6 +207,8 @@ class BlsAppCommand extends Command
                     $bar = $this->output->createProgressBar();
                     $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                     $bar->setFormat('custom');
+                    $bar->setProgressCharacter('🚀');
+                    $bar->setBarCharacter('=');
                     $bar->setMessage('Commit DP Repo...');
                     $bar->start();
                         $bar->clear();
@@ -227,6 +236,8 @@ class BlsAppCommand extends Command
                     $bar = $this->output->createProgressBar();
                     $bar->setFormatDefinition('custom', '[%bar%] %message% - %percent:3s%%');
                     $bar->setFormat('custom');
+                    $bar->setProgressCharacter('🚀');
+                    $bar->setBarCharacter('=');
                     $bar->setMessage('Copying Files...');
                     $bar->start();
     
