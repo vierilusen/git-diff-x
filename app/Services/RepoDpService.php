@@ -97,7 +97,7 @@ class RepoDpService
   public function getDiffData($branchName)
   {
     chdir($this->baseUrlRepo);
-    $this->checkout($branchName);
+    $this->checkout($branchName, false);
     exec("git ls-files -mo", $output);
 
     $output = array_map(function ($file) use ($branchName) {
