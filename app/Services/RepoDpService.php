@@ -110,7 +110,7 @@ class RepoDpService
   public function restoreFile($branchName, $path)
   {
     chdir($this->baseUrlRepo);
-    $this->checkout($branchName);
+    $this->checkout($branchName, false);
     
     exec("git ls-files -m", $modifiedFiles);
     foreach ($modifiedFiles as $key => $modifiedFile) {
