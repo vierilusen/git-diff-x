@@ -43,9 +43,17 @@ Usage:
 ```bash
 C:\gdx> gdx generate:repo_name --option
 ```
+List Repo Name:
+- BLS_APP
+- MORE COMING SOON!
+
+List Options:
+- --push (push to remote repo and create local folder DP)
+- --push-only (just push to remote repo and don't create local folder DP)
 
 Example:
 
 ```bash
 C:\gdx> gdx generate:bls_app --push
 ```
+
