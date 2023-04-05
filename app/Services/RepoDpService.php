@@ -25,6 +25,7 @@ class RepoDpService
     }
 
     chdir($this->baseUrlRepo);
+    exec("git clean -fd .", $untracked);
     exec("git checkout master 2>&1", $output);
     exec("git pull origin 2>&1", $output);
   }
