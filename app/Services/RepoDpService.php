@@ -4,24 +4,26 @@ namespace App\Services;
 class RepoDpService
 {
   protected $basePath;
-  protected $baseUrlRepo;
+  protected $repoName;
+
+  public $baseUrlRepo;
 
   public function __construct() 
   {
-      $this->basePath = "/";
-      $this->baseUrlRepo = "/gdx-temp/repodp";
+    $this->basePath = "/";
   }
 
-  public function getBaseUrlRepo()
+  public function setRepo($repoName)
   {
-    return $this->baseUrlRepo;
+    $this->repoName = $repoName;
+    $this->baseUrlRepo = "/gdx-temp/repodp/$this->repoName";
   }
 
   public function clone($httpsUrl) 
   {
     if (!is_dir($this->baseUrlRepo)) {
       chdir($this->basePath);
-      exec("git clone $httpsUrl gdx-temp/repodp 2>&1", $output);
+      exec("git clone $httpsUrl $this->baseUrlRepo 2>&1", $output);
     }
 
     chdir($this->baseUrlRepo);

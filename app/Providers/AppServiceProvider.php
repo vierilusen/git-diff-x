@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Commands\Generate\BlsAppCommand;
+use App\Services\RepoDpService;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\ServiceProvider;
+use LaravelZero\Framework\Application;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -11,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+
     }
 
     /**
@@ -19,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+
     }
 }

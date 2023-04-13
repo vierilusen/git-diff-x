@@ -9,14 +9,14 @@ use LaravelZero\Framework\Commands\Command;
 use Illuminate\Support\Facades\File;
 
 
-class BlsAppCommand extends Command
+class BlsJsonCommand extends Command
 {
     /**
      * The signature of the command.
      *
      * @var string
      */
-    protected $signature = 'generate:bls_app
+    protected $signature = 'generate:blsjson_app
                             {branch : branch name repo (required)}
                             {--push : create dp folder and push to repo DP_APP_DB (optional)}
                             {--push-only : dont create dp folder, just push to repo DP_APP_DB (optional)}';
@@ -34,9 +34,9 @@ class BlsAppCommand extends Command
      * @var string
      */
 
-    protected $repoName = "bls_app";
+    protected $repoName = "blsjson_app";
     protected $httpsMasterRepo = "https://bli-org01@dev.azure.com/bli-org01/BLS/_git/BLS";
-    protected $httpsDpAppDb = "https://bli-org01@dev.azure.com/bli-org01/DP_APP_DB/_git/BLS_APP";
+    protected $httpsDpAppDb = "https://bli-org01@dev.azure.com/bli-org01/DP_APP_DB/_git/BLSJSON_APP";
     protected $errorMessage = '';
 
     /**

@@ -70,4 +70,7 @@ return [
         App\Providers\AppServiceProvider::class,
     ],
 
+    // Custom
+    'command_call' => 'jdksjf',
+
 ];
