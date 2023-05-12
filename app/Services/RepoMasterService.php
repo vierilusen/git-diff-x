@@ -47,7 +47,7 @@ class RepoMasterService
   {
     chdir($this->baseUrlRepo);
      $this->checkout($fromBranch);
-     exec("git diff --name-only $toBranch > diff.txt", $output);
+     exec("git diff --name-only --diff-filter=d $toBranch > diff.txt", $output);
   }
 
   public function getDiffData()
