@@ -35,7 +35,7 @@ class RepoDpService
   public function checkout($branchName, $restore = true)
   {
     chdir($this->baseUrlRepo);
-    exec("git checkout $branchName 2>&1", $output);
+    exec("git switch $branchName 2>&1", $output);
     if ($restore) {
       exec("git restore . 2>&1", $output);
     }
